@@ -1,4 +1,26 @@
-﻿<h3>RickMortyRazor</h3>
+﻿
+@*Para que la imagen sea resposive*@
+<style>
+    .responsive-img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+@*Inserción del logo*@
+<img class="mt-5 responsive-img" src="/imagenes/Rick_and_Morty_Logo.png" alt="Rick and Morty Logo" />
+
+@*Buscador + botón*@
+<div class="input-group mb-5 mt-5">
+    <input class="form-control" type="text" placeholder="Select a character, location or episode" />
+    <div>
+        <button style="background-color:#3FB2BF" class="btn btn-outline-secundary" type="button">Search</button>
+    </div>
+</div>
+
 
 @code {
 
