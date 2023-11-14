@@ -1,4 +1,6 @@
-﻿
+﻿@using Proyecto_MAUI_Parte_2_Rick_And_Morty.Models;
+@using System.Net.Http.Json;
+
 @*@using Proyecto_MAUI_Parte_2_Rick_And_Morty.Models
 @using System.Net.Http.Json;*@
 
@@ -29,15 +31,42 @@
 
 @*Buscador + botón*@
 <div class="input-group mb-5 mt-5">
-    <input class="form-control" type="text" placeholder="Select a character, location or episode" />
+    <input class="form-control" type="text" @bind=personaje placeholder="Select a character, location or episode" />
     <div>
-        <button style="background-color:#3FB2BF" class="btn btn-outline-secundary" type="button">Search</button>
+        <button style="background-color:#3FB2BF" class="btn btn-outline-secundary" type="button" @onclick="()=>GetRMCharacter(personaje)">Search</button>
     </div>
 </div>
 
+@if (cont == 0)
+{
 @*Imagen del personaje*@
-<img class="mt-5 imgRedonda" src="/imagenes/Rick.jpg" alt="Rick" />
+    <img class="mt-5 imgRedonda" src="/imagenes/Rick.jpg" alt="Rick" />
+}
+else
+{
+    if (!error)
+    {
+        
+    }
+
+}
 
 @code {
+    String personaje = "";
+    RickMortyModel? rmData;
+    HttpClient Client = new HttpClient();
+    Boolean error = false;
+    int cont = 0;
+    async Task GetRMCharacter(String personaje)
+    {
+        try
+        {
+            rmData = await Client.GetFromJsonAsync<RickMortyModel>(EndPoint.GetRMChar(personaje));
+        }
+        catch (Exception ex)
+        {
+            error = true;
+        }
+    }
 
 }
