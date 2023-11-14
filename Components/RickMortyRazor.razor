@@ -1,5 +1,5 @@
 ﻿
-@*Para que la imagen sea resposive*@
+@*Para que la imagen sea resposive y las imagenes sea obaladas*@
 <style>
     .responsive-img {
         max-width: 100%;
@@ -8,6 +8,17 @@
         margin-left: auto;
         margin-right: auto;
     }
+
+    .imgRedonda {
+        width: 100%;
+        height: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 160px;
+        border: 10px solid #C3DD3F;
+    }
+
 </style>
 
 @*Inserción del logo*@
@@ -21,6 +32,8 @@
     </div>
 </div>
 
+@*Imagen del personaje*@
+<img class="mt-5 imgRedonda" src="/imagenes/Rick.jpg" alt="Rick" />
 
 @code {
 
