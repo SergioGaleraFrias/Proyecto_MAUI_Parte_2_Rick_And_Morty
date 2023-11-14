@@ -2,6 +2,8 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-image: url('/imagenes/estrella.jpg'); /* Reemplaza con la ruta real de tu imagen */
+    background-size: cover; /* Ajusta el tamaño de la imagen al contenedor */
 }
 
 h1:focus {
