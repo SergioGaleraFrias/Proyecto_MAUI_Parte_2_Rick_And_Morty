@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Proyecto_MAUI_Parte_2_Rick_And_Morty.Data;
 
 namespace Proyecto_MAUI_Parte_2_Rick_And_Morty;
 
@@ -22,7 +21,7 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-		builder.Services.AddSingleton<WeatherForecastService>();
+		
 
 		return builder.Build();
 	}
