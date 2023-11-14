@@ -1,5 +1,28 @@
-﻿<h3>RickMortyCard</h3>
+﻿<div class="card mb-3" style="max-width:50rem;  background-color: rgba(255, 255, 255, 0.0);">
+    <div class="text-center">
+        <div class="card-body">
+            <p style="color: #C3DD3F" class="card-text">Nombre: @name </p>
+            <p style="color: #C3DD3F" class="card-text">Genero: @gender </p>
+            <p style="color: #C3DD3F" class="card-text">Especie: @species</p>
+            <p style="color: #C3DD3F" class="card-text">Estado: @status</p>
+        </div>
+    </div>
+</div>
 
 @code {
 
+    [Parameter]
+    public string name { get; set; }
+
+    [Parameter]
+    public string status { get; set; }
+
+    [Parameter]
+    public string species { get; set; }
+
+    [Parameter]
+    public string gender { get; set; }
+}
+
+ublic string gender { get; set; }
 }
