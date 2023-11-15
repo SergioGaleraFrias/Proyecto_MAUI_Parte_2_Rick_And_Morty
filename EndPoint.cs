@@ -8,9 +8,9 @@ namespace Proyecto_MAUI_Parte_2_Rick_And_Morty
 {
     internal class EndPoint
     {
-        public static string GetRMChar(string name)
+        public static string GetRMChar()
         {
-            return $"https://rickandmortyapi.com/api/character/{name}";
+            return $"https://rickandmortyapi.com/api/character";
         }
     }
 }
