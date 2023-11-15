@@ -10,7 +10,7 @@ namespace Proyecto_MAUI_Parte_2_Rick_And_Morty
     {
         public static string GetRMChar(string name)
         {
-            return $"https://rickandmortyapi.com/api/character{name}";
+            return $"https://rickandmortyapi.com/api/character/{name}";
         }
     }
 }
