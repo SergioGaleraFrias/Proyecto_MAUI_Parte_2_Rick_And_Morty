@@ -7,18 +7,24 @@
 @if (rmData != null)
 {
     @*Dropdown de personajes*@
-    <div class="input-group mb-5 mt-5">
 
+    <div class="input-group mb-5 mt-5">
+        <div>
+            <button style="background-color:#3FB2BF" class="btn btn-outline-secundary" type="button" @onclick="restar"> @anterior </button>
+        </div>
         @*<input type="text" @bind=personaje placeholder="Select a character, location or episode" />*@
         <select class="form-control" name="select" @onchange="insertarPersonaje">
-            @for (int i = 0; i < nPersonajes; i++)
-            {
-                <option value="@rmData.results[i].id">@rmData.results[i].name</option>
+            @while(nPersonajesCont < nPersonajes){
+                <option value="@rmData.results[nPersonajesCont].id">@rmData.results[nPersonajesCont].name</option>
+                nPersonajesCont++;
             }
         </select>
         @*<div>
     <button style="background-color:#3FB2BF" class="btn btn-outline-secundary" type="button" @onclick="()=>insertarPersonaje()">Search</button>
     </div>*@
+        <div>
+            <button style="background-color:#3FB2BF" class="btn btn-outline-secundary" type="button" @onclick="sumar"> @posterior </button>
+        </div>
     </div>
 }
 @if (nombre.Equals(""))
@@ -40,7 +46,10 @@ else
     RickMortyModel? rmData;
     HttpClient Client = new HttpClient();
     Boolean error = false;
+    String anterior = "<<<";
+    String posterior = ">>>";
     int cont = 0;
+    int nPersonajesCont = 0;
     int nPersonajes = 20;
     //Los personajes van del id 1 al 826
     async Task GetRMCharacter()
@@ -76,6 +85,44 @@ else
         await GetRMCharacter();
     }
 
+    public void restar()
+    {
+        if (nPersonajesCont-20 <= 0)
+        {
+            nPersonajesCont = 0;
+            nPersonajes = 20;
+        }
+        else if (nPersonajes==826)
+        {
+            nPersonajesCont = 800;
+            nPersonajes = 820;
+        }
+        else
+        {
+            nPersonajesCont = nPersonajesCont-20;
+            nPersonajes = nPersonajes - 20;
+        }
+
+    }
+
+    public void sumar()
+    {
+        if (nPersonajesCont + 20 > 826)
+        {
+            nPersonajesCont = 820;
+            nPersonajes = 826;
+        }
+        else if (nPersonajes == 820)
+        {
+            nPersonajesCont = 820;
+            nPersonajes = 826;
+        }
+        else
+        {
+            nPersonajesCont = nPersonajesCont + 20;
+            nPersonajes = nPersonajes + 20;
+        }
+    }
 }
 
     @*Para que la imagen sea resposive y las imagenes sea obaladas*@
