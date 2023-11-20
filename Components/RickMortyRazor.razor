@@ -14,9 +14,9 @@
         </div>
         @*<input type="text" @bind=personaje placeholder="Select a character, location or episode" />*@
         <select class="form-control" name="select" @onchange="insertarPersonaje">
-            @while(nPersonajesCont < nPersonajes){
-                <option value="@rmData.results[nPersonajesCont].id">@rmData.results[nPersonajesCont].name</option>
-                nPersonajesCont++;
+            @for (int i = nPersonajesCont; i < nPersonajes; i++)
+            {
+                <option value="@rmData.results[i].id">@rmData.results[i].name</option>
             }
         </select>
         @*<div>
@@ -48,21 +48,21 @@ else
     Boolean error = false;
     String anterior = "<<<";
     String posterior = ">>>";
-    int cont = 0;
     int nPersonajesCont = 0;
     int nPersonajes = 20;
+
     //Los personajes van del id 1 al 826
     async Task GetRMCharacter()
     {
         try
         {
             rmData = await Client.GetFromJsonAsync<RickMortyModel>(EndPoint.GetRMChar());
-            cont++;
         }
         catch (Exception ex)
         {
             error = true;
         }
+
     }
     String nombre = "";
     String estado = "";
@@ -72,12 +72,14 @@ else
 
     public void insertarPersonaje(ChangeEventArgs e)
     {
-        int id = Convert.ToInt32(e.Value)-1;
+        int id = Convert.ToInt32(e.Value) - 1;
         nombre = @rmData.results[id].name;
         estado = @rmData.results[id].status;
         especie = @rmData.results[id].species;
         genero = @rmData.results[id].gender;
         img = @rmData.results[id].image;
+
+
     }
 
     protected override async Task OnInitializedAsync()
@@ -87,26 +89,29 @@ else
 
     public void restar()
     {
-        if (nPersonajesCont-20 <= 0)
+        InvokeAsync(GetRMCharacter);
+        if (nPersonajesCont - 20 <= 0)
         {
             nPersonajesCont = 0;
             nPersonajes = 20;
         }
-        else if (nPersonajes==826)
+        else if (nPersonajes == 826)
         {
             nPersonajesCont = 800;
             nPersonajes = 820;
         }
         else
         {
-            nPersonajesCont = nPersonajesCont-20;
+            nPersonajesCont = nPersonajesCont - 20;
             nPersonajes = nPersonajes - 20;
         }
+
 
     }
 
     public void sumar()
     {
+        InvokeAsync(GetRMCharacter);
         if (nPersonajesCont + 20 > 826)
         {
             nPersonajesCont = 820;
@@ -122,6 +127,7 @@ else
             nPersonajesCont = nPersonajesCont + 20;
             nPersonajes = nPersonajes + 20;
         }
+
     }
 }
 
