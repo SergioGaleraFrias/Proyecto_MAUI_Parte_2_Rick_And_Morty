@@ -14,9 +14,9 @@
         </div>
         @*<input type="text" @bind=personaje placeholder="Select a character, location or episode" />*@
         <select class="form-control" name="select" @onchange="insertarPersonaje">
-            @for (int i = nPersonajesCont; i < nPersonajes; i++)
+            @for (int i = 0; i < 20; i++)
             {
-                <option value="@rmData.results[i].id">@rmData.results[i].name</option>
+                <option value="@i">@rmData.results[i].name</option>
             }
         </select>
         @*<div>
@@ -26,6 +26,7 @@
             <button style="background-color:#3FB2BF" class="btn btn-outline-secundary" type="button" @onclick="sumar"> @posterior </button>
         </div>
     </div>
+    <div style="background-color:#3FB2BF" class="mt-5">Pagina: @pag</div>
 }
 @if (nombre.Equals(""))
 {
@@ -48,15 +49,13 @@ else
     Boolean error = false;
     String anterior = "<<<";
     String posterior = ">>>";
-    int nPersonajesCont = 0;
-    int nPersonajes = 20;
-
+    int pag =1;
     //Los personajes van del id 1 al 826
     async Task GetRMCharacter()
     {
         try
         {
-            rmData = await Client.GetFromJsonAsync<RickMortyModel>(EndPoint.GetRMChar());
+            rmData = await Client.GetFromJsonAsync<RickMortyModel>(EndPoint.GetRMChar(pag));
         }
         catch (Exception ex)
         {
@@ -72,62 +71,39 @@ else
 
     public void insertarPersonaje(ChangeEventArgs e)
     {
-        int id = Convert.ToInt32(e.Value) - 1;
+        int id = Convert.ToInt32(e.Value);
         nombre = @rmData.results[id].name;
         estado = @rmData.results[id].status;
         especie = @rmData.results[id].species;
         genero = @rmData.results[id].gender;
         img = @rmData.results[id].image;
-
-
     }
 
     protected override async Task OnInitializedAsync()
     {
+  
         await GetRMCharacter();
     }
 
     public void restar()
     {
-        InvokeAsync(GetRMCharacter);
-        if (nPersonajesCont - 20 <= 0)
+        if (pag > 1)
         {
-            nPersonajesCont = 0;
-            nPersonajes = 20;
+            pag--;
+            InvokeAsync(GetRMCharacter);
+            InvokeAsync(StateHasChanged);
+            
         }
-        else if (nPersonajes == 826)
-        {
-            nPersonajesCont = 800;
-            nPersonajes = 820;
-        }
-        else
-        {
-            nPersonajesCont = nPersonajesCont - 20;
-            nPersonajes = nPersonajes - 20;
-        }
-
-
     }
 
     public void sumar()
     {
-        InvokeAsync(GetRMCharacter);
-        if (nPersonajesCont + 20 > 826)
+        if (pag < 42)
         {
-            nPersonajesCont = 820;
-            nPersonajes = 826;
+            pag++;
+            InvokeAsync(GetRMCharacter);
+            InvokeAsync(StateHasChanged);
         }
-        else if (nPersonajes == 820)
-        {
-            nPersonajesCont = 820;
-            nPersonajes = 826;
-        }
-        else
-        {
-            nPersonajesCont = nPersonajesCont + 20;
-            nPersonajes = nPersonajes + 20;
-        }
-
     }
 }
 
