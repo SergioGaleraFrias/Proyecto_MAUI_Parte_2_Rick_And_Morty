@@ -30,12 +30,15 @@
 }
 @if (nombre2 != null && insertado == 0)
 {
-    nombre = nombre2;
-    estado = estado2;
-    especie = especie2;
-    genero = genero2;
-    img = rutaimg + img2 + ".jpeg";
-    insertado++;
+    if (nombre2 != "")
+    {
+        nombre = nombre2;
+        estado = estado2;
+        especie = especie2;
+        genero = genero2;
+        img = rutaimg + img2 + ".jpeg";
+        insertado++;
+    }
 }
 @if (nombre.Equals(""))
 {
