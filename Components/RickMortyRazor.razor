@@ -30,17 +30,16 @@
 }
 @if (nombre2 != null && insertado == 0)
 {
-    if (nombre2 != "")
-    {
-        nombre = nombre2;
-        estado = estado2;
-        especie = especie2;
-        genero = genero2;
-        img = rutaimg + img2 + ".jpeg";
-        insertado++;
-    }
+
+    nombre = nombre2;
+    estado = estado2;
+    especie = especie2;
+    genero = genero2;
+    img = rutaimg + img2 + ".jpeg";
+    insertado++;
+
 }
-@if (nombre.Equals(""))
+@if (nombre.Equals("") && nombre2 == null)
 {
     @*Imagen del personaje*@
     <img class="mt-5 imgRedonda" src="/imagenes/Rick.jpg" alt="Rick" />
@@ -128,9 +127,17 @@ else
             pag--;
             InvokeAsync(GetRMCharacter);
             InvokeAsync(StateHasChanged);
-            String numimg = img.Split("/")[img.Split("/").Length - 1].Replace(".jpeg", "");
-            img = numimg;
-            NavigationManager.NavigateTo($"/{pag}/{nombre}/{estado}/{especie}/{genero}/{img}", forceLoad: true);
+
+            if (nombre2 != null)
+            {
+                String numimg = img.Split("/")[img.Split("/").Length - 1].Replace(".jpeg", "");
+                img = numimg;
+                NavigationManager.NavigateTo($"/{pag}/{nombre}/{estado}/{especie}/{genero}/{img}", forceLoad: true);
+            }
+            else
+            {
+                NavigationManager.NavigateTo($"/{pag}");
+            }
         }
     }
 
@@ -141,9 +148,16 @@ else
             pag++;
             InvokeAsync(GetRMCharacter);
             InvokeAsync(StateHasChanged);
-            String numimg = img.Split("/")[img.Split("/").Length - 1].Replace(".jpeg", "");
-            img = numimg;
-            NavigationManager.NavigateTo($"/{pag}/{nombre}/{estado}/{especie}/{genero}/{img}", forceLoad: true);
+            if (nombre2 != null)
+            {
+                String numimg = img.Split("/")[img.Split("/").Length - 1].Replace(".jpeg", "");
+                img = numimg;
+                NavigationManager.NavigateTo($"/{pag}/{nombre}/{estado}/{especie}/{genero}/{img}", forceLoad: true);
+            }
+            else
+            {
+                NavigationManager.NavigateTo($"/{pag}");
+            }
         }
     }
 }
