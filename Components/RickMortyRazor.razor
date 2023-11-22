@@ -1,5 +1,6 @@
 ﻿@using Proyecto_MAUI_Parte_2_Rick_And_Morty.Models;
 @using System.Net.Http.Json;
+@inject NavigationManager NavigationManager
 
 @*Inserción del logo*@
 <img class="mt-5 responsive-img" src="/imagenes/Rick_and_Morty_Logo.png" alt="Rick and Morty Logo" />
@@ -10,7 +11,7 @@
 
     <div class="input-group mb-5 mt-5">
         <div>
-            <button style="background-color:#3FB2BF" class="btn btn-outline-secundary" type="button" @onclick="restar"> @anterior </button>
+            <button style="background-color:#3FB2BF" class="btn btn-outline-secundary" type="button" @onclick="restar" href="/@pag"> @anterior </button>
         </div>
         @*<input type="text" @bind=personaje placeholder="Select a character, location or episode" />*@
         <select class="form-control" name="select" @onchange="insertarPersonaje">
@@ -23,10 +24,18 @@
     <button style="background-color:#3FB2BF" class="btn btn-outline-secundary" type="button" @onclick="()=>insertarPersonaje()">Search</button>
     </div>*@
         <div>
-            <button style="background-color:#3FB2BF" class="btn btn-outline-secundary" type="button" @onclick="sumar"> @posterior </button>
+            <button style="background-color:#3FB2BF" class="btn btn-outline-secundary" type="button" @onclick="sumar" href="/@pag"> @posterior </button>
         </div>
     </div>
-    <div style="background-color:#3FB2BF" class="mt-5">Pagina: @pag</div>
+}
+@if (nombre2 != null && insertado == 0)
+{
+    nombre = nombre2;
+    estado = estado2;
+    especie = especie2;
+    genero = genero2;
+    img = rutaimg + img2 + ".jpeg";
+    insertado++;
 }
 @if (nombre.Equals(""))
 {
@@ -49,13 +58,25 @@ else
     Boolean error = false;
     String anterior = "<<<";
     String posterior = ">>>";
-    int pag =1;
+    int pag = 1;
+    int insertado = 0;
+    [Parameter]
+    public string? pag2 { get; set; }
     //Los personajes van del id 1 al 826
     async Task GetRMCharacter()
     {
         try
         {
-            rmData = await Client.GetFromJsonAsync<RickMortyModel>(EndPoint.GetRMChar(pag));
+
+            if (pag2 != null)
+            {
+                pag = int.Parse(pag2);
+                rmData = await Client.GetFromJsonAsync<RickMortyModel>(EndPoint.GetRMChar(pag));
+            }
+            else
+            {
+                rmData = await Client.GetFromJsonAsync<RickMortyModel>(EndPoint.GetRMChar(pag));
+            }
         }
         catch (Exception ex)
         {
@@ -68,6 +89,18 @@ else
     String especie = "";
     String genero = "";
     String img = "";
+    String rutaimg = "https://rickandmortyapi.com/api/character/avatar/";
+
+    [Parameter]
+    public String? nombre2 { get; set; }
+    [Parameter]
+    public String? estado2 { get; set; }
+    [Parameter]
+    public String? especie2 { get; set; }
+    [Parameter]
+    public String? genero2 { get; set; }
+    [Parameter]
+    public String? img2 { get; set; }
 
     public void insertarPersonaje(ChangeEventArgs e)
     {
@@ -81,7 +114,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-  
+
         await GetRMCharacter();
     }
 
@@ -92,7 +125,9 @@ else
             pag--;
             InvokeAsync(GetRMCharacter);
             InvokeAsync(StateHasChanged);
-            
+            String numimg = img.Split("/")[img.Split("/").Length - 1].Replace(".jpeg", "");
+            img = numimg;
+            NavigationManager.NavigateTo($"/{pag}/{nombre}/{estado}/{especie}/{genero}/{img}", forceLoad: true);
         }
     }
 
@@ -103,6 +138,9 @@ else
             pag++;
             InvokeAsync(GetRMCharacter);
             InvokeAsync(StateHasChanged);
+            String numimg = img.Split("/")[img.Split("/").Length - 1].Replace(".jpeg", "");
+            img = numimg;
+            NavigationManager.NavigateTo($"/{pag}/{nombre}/{estado}/{especie}/{genero}/{img}", forceLoad: true);
         }
     }
 }
