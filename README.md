@@ -1,6 +1,5 @@
 # Proyecto_MAUI_Parte_2_Rick_And_Morty
-PuEdO <br>
-SaLtAr <br>
-Liii <br>
+Unai cano es Sergio 
+Tuvimos problemas con el GitHub
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NeEe <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AaAaAaSsSs
